@@ -20,7 +20,7 @@
         (sha1update bytes)
         sha1final)))
 
-(defmacro stream-to-bytes
+(defmacro stream->bytes
   {:style/indent 1}
   [[out] & body]
   `(with-open [~out (ByteArrayOutputStream.)]
@@ -28,12 +28,12 @@
      (.toByteArray ~out)))
 
 (defn deflate [bytes]
-  (stream-to-bytes [out]
+  (stream->bytes [out]
     (with-open [stream (DeflaterOutputStream. out)]
       (.write stream bytes)
       (.finish stream))))
 
 (defn inflate [bytes]
-  (stream-to-bytes [out]
+  (stream->bytes [out]
     (with-open [in (InflaterInputStream. (ByteArrayInputStream. bytes))]
       (io/copy in out))))
