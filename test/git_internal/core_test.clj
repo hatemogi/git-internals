@@ -6,12 +6,16 @@
                 [properties :as prop]]
             [git-internal.core :refer :all]))
 
-(defspec sha1hex-len-test 100
-  (prop/for-all [v gen/string]
-                (= 40 (.length (sha1hex (.getBytes v))))))
+(defspec sha1hex-len-test
+  (prop/for-all [v gen/bytes]
+                (= 40 (.length (sha1hex v)))))
 
 (deftest blob-digest-test
   (testing "sample"
     (are [obj-id str] (= obj-id (blob-digest (.getBytes str)))
       "d670460b4b4aece5915caf5c68d12f560a9fe3e4" "test content\n"
       "bd9dbf5aae1a3862dd1526723246b20206e5fc37" "what is up, doc?")))
+
+(defspec deflate-test
+  (prop/for-all [v gen/bytes]
+                (= (seq v) (seq (inflate (deflate v))))))
