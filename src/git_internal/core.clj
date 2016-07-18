@@ -1,12 +1,18 @@
 (ns git-internal.core
-  (:require [clojure.java.io :as io])
-  (:import java.security.MessageDigest
-           java.math.BigInteger))
+  (:import java.math.BigInteger
+           java.security.MessageDigest))
 
-(defn sha1hex [bytes]
-  (let [digest (.digest (doto (MessageDigest/getInstance "SHA-1")
-                          (.update bytes)))]
-    (format "%040x" (BigInteger. 1 digest))))
+(defn sha1update
+  ([bytes] (sha1update (MessageDigest/getInstance "SHA-1") bytes))
+  ([digest bytes] (.update digest bytes) digest))
 
-(defn hash-object [bytes]
-  )
+(defn sha1final [digest]
+  (format "%040x" (BigInteger. 1 (.digest digest))))
+
+(def sha1hex (comp sha1final sha1update))
+
+(defn blob-digest [bytes]
+  (let [header (.getBytes (str "blob " (alength bytes) "\0"))]
+    (-> (sha1update header)
+        (sha1update bytes)
+        sha1final)))
