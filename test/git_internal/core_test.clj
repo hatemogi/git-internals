@@ -6,7 +6,7 @@
                 [properties :as prop]]
             [git-internal.core :refer :all]))
 
-(defspec sha1hex-len-test
+(defspec sha1hex-len-spec
   (prop/for-all [v gen/bytes]
                 (= 40 (.length (sha1hex v)))))
 
@@ -19,3 +19,7 @@
 (defspec deflate-test
   (prop/for-all [v gen/bytes]
                 (= (seq v) (seq (inflate (deflate v))))))
+
+(defspec tree->bytes-spec
+  (prop/for-all [entries (gen/vector (gen/tuple gen/bytes))]
+                true))
