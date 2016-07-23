@@ -4,7 +4,9 @@
              [clojure-test :refer [defspec]]
              [generators :as gen]
              [properties :as prop]]
-            [git-internal.core :refer :all]))
+            [git-internal.core :refer :all]
+            [gloss.core :refer :all]
+            [gloss.io :refer :all]))
 
 (defspec sha1hex-len-spec
   (prop/for-all [v gen/bytes]
@@ -28,3 +30,12 @@
                                     :oid (gen/fmap byte-array (gen/vector gen/byte 20)))))]
                 (= (seq (-tree->bytes tree))
                    (seq (tree->bytes tree)))))
+
+(defspec encode-to-stream-spec 2
+  ;; somehow gloss.io/encode-to-stream looks broken.
+  ;; encode-to-stream outputs without suffix when it is called more than once.
+  (prop/for-all [mode (gen/elements ["100644" "100755" "120000" "040000"])
+                 frame (gen/return {:mode (string :utf-8 :length 6 :suffix " ")})
+                 out (gen/return (java.io.ByteArrayOutputStream.))]
+                (encode-to-stream frame out [{:mode mode}])
+                (= 7 (.size out))))
