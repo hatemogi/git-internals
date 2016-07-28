@@ -28,8 +28,9 @@
                                     :mode (gen/elements ["100644" "100755" "120000" "040000"])
                                     :filename (gen/not-empty gen/string-alphanumeric)
                                     :oid (gen/fmap byte-array (gen/vector gen/byte 20)))))]
-                (= (seq (-tree->bytes tree))
-                   (seq (tree->bytes tree)))))
+                (let [oid->seq (fn [e] (update e :oid seq))]
+                  (= (sort-by :filename (map oid->seq tree))
+                     (map oid->seq (bytes->tree (tree->bytes tree)))))))
 
 (defspec encode-all-spec-ok
   (prop/for-all [mode (gen/elements ["100644" "100755" "120000" "040000"])
