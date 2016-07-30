@@ -66,13 +66,19 @@
       (io/copy in out))))
 
 (defrecord TreeEntry [mode filename oid])
-(defcodec tree-entry (ordered-map :mode     (string :utf-8 :length 6 :suffix " ")
+(defcodec tree-codec (ordered-map :mode     (string :utf-8 :length 6 :suffix " ")
                                   :filename (string :utf-8 :delimiters ["\0"])
                                   :oid      (finite-block 20)))
 
 (defn tree->bytes [tree]
-  (encode-to-bytes tree-entry (sort-by :filename tree)))
+  (encode-to-bytes tree-codec (sort-by :filename tree)))
 
 (defn bytes->tree [bytes]
   (map (fn [e] (update e :oid heaps->bytes))
-       (decode-all tree-entry bytes)))
+       (decode-all tree-codec bytes)))
+
+(defcodec commit-codec (ordered-map :tree (string :ascii :length 40 :suffix "\n")
+                                    :parent (string :ascii :length 40 :suffix "\n")
+                                    :author (string :utf-8 :delimiters ["\n"])))
+(defn commit->bytes [commit]
+  )
