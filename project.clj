@@ -1,5 +1,5 @@
 (defproject git-internal "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "a toy project for studying Git Internals"
   :url "https://github.com/hatemogi/git-internal"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}

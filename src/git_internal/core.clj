@@ -47,6 +47,8 @@
         (sha1update bytes)
         sha1final)))
 
+(def ^:private test-oid (blob-digest (.getBytes "sample-oid")))
+
 (defmacro stream->bytes
   {:style/indent 1}
   [[out] & body]
@@ -77,8 +79,19 @@
   (map (fn [e] (update e :oid heaps->bytes))
        (decode-all tree-codec bytes)))
 
-(defcodec commit-codec (ordered-map :tree (string :ascii :length 40 :suffix "\n")
-                                    :parent (string :ascii :length 40 :suffix "\n")
-                                    :author (string :utf-8 :delimiters ["\n"])))
-(defn commit->bytes [commit]
+(defn- ident->str [ident]
   )
+
+(defn commit->bytes [commit]
+  (stream->bytes [out]
+    (let [puts (fn [& s]
+                 (if (seq s) (.write out (.getBytes (apply str s))))
+                 (.write out 10))]
+      (puts "tree " (hex-str (:tree commit)))
+      (doseq [parent (:parents commit)]
+        (puts "parent " (hex-str parent)))
+      (puts "author " (:author commit))
+      (puts "committer " (ident->str (:committer commit)))
+      (puts "encoding " (ident->str (:encoding commit)))
+      (puts)
+      (.write out (.getBytes (:message commit))))))
