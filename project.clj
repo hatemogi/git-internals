@@ -1,6 +1,6 @@
-(defproject git-internal "0.1.0-SNAPSHOT"
+(defproject git-internals "0.1.0-SNAPSHOT"
   :description "a toy project for studying Git Internals"
-  :url "https://github.com/hatemogi/git-internal"
+  :url "https://github.com/hatemogi/git-internals"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]

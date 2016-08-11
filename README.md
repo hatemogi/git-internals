@@ -1,4 +1,4 @@
-# Git Internal
+# Git Internals
 
 An experimental clojure lib to study git-internals
 
