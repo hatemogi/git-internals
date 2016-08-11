@@ -176,19 +176,26 @@ $ git commit -m "첫번째 커밋"
 
 이 그림의 경우, *AUTHOR*과 *README.md*이 있고, *src*가 있는 디렉터리를 `tree`로 표현한 것입니다. *src 디렉터리*는 또 다른 `tree` 오브젝트인데, 이걸 쫓아가보면, 또 `part1.clj`라는 파일을 `blob`으로 가리키고 있습니다. 특정 `blob`이나 다른 `tree`를 참조하는데는 40글자의 SHA-1값을 사용합니다.
 
-> 100644 blob 72d78def2dc72d0dce67f36874c55a7b3e6ccef7	AUTHOR
-> 100644 blob 8a8363d93e61185f6df18ed61321626be514c7f4	README.md
-> 040000 tree df447e88eca6d9b6648c3107aeb1ac352f4223d1	src
->
-> 100644 blob ff711af123f4a4fd3ce1f39fec84d7f0ee0dce16	part1.clj
+### tree: 0e7a245
+
+    100644 blob 72d78def2dc72d0dce67f36874c55a7b3e6ccef7	AUTHOR
+    100644 blob 8a8363d93e61185f6df18ed61321626be514c7f4	README.md
+    040000 tree df447e88eca6d9b6648c3107aeb1ac352f4223d1	src
+
+### tree: df447e8
+
+    100644 blob ff711af123f4a4fd3ce1f39fec84d7f0ee0dce16	part1.clj
 
 ## 커밋(commit) 오브젝트
 
-> tree 0e7a2452ff7f8d53fada6e8375f2806121561fbe
-> author Daehyun Kim <hatemogi@gmail.com> 1470884109 +0900
-> committer Daehyun Kim <hatemogi@gmail.com> 1470884109 +0900
->
-> 첫번째 커밋
+``` text
+tree 0e7a2452ff7f8d53fada6e8375f2806121561fbe
+author Daehyun Kim <hatemogi@gmail.com> 1470884109 +0900
+committer Daehyun Kim <hatemogi@gmail.com> 1470884109 +0900
+
+첫번째 커밋
+```
+
 
 ## 클로저 프로젝트
 
