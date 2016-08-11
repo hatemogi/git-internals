@@ -110,6 +110,7 @@ $ cat README.md | git hash-object --stdin
 $ mv .git/objects/8a/8363d93e61185f6df18ed61321626be514c7f4 8a8363.bak
 $ cat README.md | git hash-object -w --stdin
 $ diff .git/objects/8a/8363d93e61185f6df18ed61321626be514c7f4 8a8363.bak
+$ rm 8a8363.bak
 ```
 
 이렇게 `git add` 명령어로 파일을 추가할 때, `git hash-object -w`로 그 내용이 `.git/objects` 디렉터리 안에 들어갑니다. 참고로, `git add`는 이렇게 blob을 저장하는 일에 더불어 인덱스 영역에 README.md 파일에 대한 정보가 들어갑니다.
